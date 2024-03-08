@@ -22,14 +22,12 @@ public class ParseTheClassByteCode {
         File classFile = getByteCodeFileByClass(byteCodeParserClass);
 
         //解析class文件
-        try(InputStream inputStream = getByteArrayByFile(classFile)){
-            ClassByteCode classByteCode = ParserCache.getParser(ByteCodeParser.class).parser(inputStream, true);
-            System.out.println(classByteCode);
+        ClassByteCode classByteCode = getClassByteCodeByClassFile(classFile);
+        System.out.println(classByteCode);
 
-            //todo 反编译还原代码
-            //String decompile = DecompileUtil.decompile(classByteCode);
-            //System.out.println(decompile);
-        }
+        //todo 反编译还原代码
+        //String decompile = DecompileUtil.decompile(classByteCode);
+        //System.out.println(decompile);
     }
 
     /**
@@ -40,9 +38,11 @@ public class ParseTheClassByteCode {
     }
 
     /**
-     * 获取class文件的字节流
+     * 解析class文件
      */
-    private static InputStream getByteArrayByFile(File classFile) throws IOException {
-        return Files.newInputStream(classFile.toPath());
+    private static ClassByteCode getClassByteCodeByClassFile(File classFile) throws IOException {
+        try(InputStream inputStream = Files.newInputStream(classFile.toPath())){
+            return ParserCache.getParser(ByteCodeParser.class).parser(inputStream, true);
+        }
     }
 }

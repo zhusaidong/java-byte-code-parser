@@ -116,6 +116,9 @@ public class ByteCodeParser implements Parser<ClassByteCode> {
 
     private static void fillAttributes(List<AttributeInfo> attributes, List<ConstantPool> constantPools) {
         attributes.forEach(attributeInfo -> {
+            if(attributeInfo.getAttributeType() == null){
+                return;
+            }
             switch (attributeInfo.getAttributeType()) {
                 case "ConstantValue":
                     AttributeConstantValue constantValue = (AttributeConstantValue) attributeInfo;

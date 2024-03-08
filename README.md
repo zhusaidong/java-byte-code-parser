@@ -13,7 +13,7 @@ java 字节码解析器
 
 ```java
 public static void main(String[] args) {
-    try(InputStream is = Files.newInputStream(new File("class文件路径"))){
+    try(InputStream is = Files.newInputStream(new File("class文件路径").toPath())){
         ClassByteCode classByteCode = new ByteCodeParser().parser(is);
         System.out.println(classByteCode);
     }
