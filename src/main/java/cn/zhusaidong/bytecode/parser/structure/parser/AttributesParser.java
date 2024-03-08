@@ -46,8 +46,7 @@ public class AttributesParser implements Parser<List<AttributeInfo>> {
                 attributeInfo.setAttributeLength(attributeLength);
                 attributeInfo.setInfo(ByteUtil.getBytes(is, attributeInfo.getAttributeLength()));
             } else {
-                AttributeParser<AttributeInfo> attributeParser = ParserCache.getParser(aClass);
-                attributeInfo = attributeParser.parser(is, objs[0]);
+                attributeInfo = ParserCache.getParser(aClass).parser(is, objs[0]);
             }
             attributeList.add(attributeInfo);
         }

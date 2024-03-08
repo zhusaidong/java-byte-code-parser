@@ -1,5 +1,6 @@
 package cn.zhusaidong.bytecode.parser.structure.parser;
 
+import cn.zhusaidong.bytecode.parser.domain.ParserCache;
 import cn.zhusaidong.bytecode.parser.enums.AccessFlagTypeEnum;
 import cn.zhusaidong.bytecode.parser.interfaces.Parser;
 import cn.zhusaidong.bytecode.parser.structure.data.constant.ConstantPoolFieldOrMethods;
@@ -28,7 +29,7 @@ public class MethodsParser implements Parser<List<ConstantPoolFieldOrMethods>> {
             methods.setAccessFlags(new AccessFlagParser().parser(is, AccessFlagTypeEnum.METHOD));
             methods.setName("#" + ByteUtil.toDigits(ByteUtil.getBytes(is, 2)));
             methods.setDescriptor("#" + ByteUtil.toDigits(ByteUtil.getBytes(is, 2)));
-            methods.setAttributes(new AttributesParser().parser(is, objs[0]));
+            methods.setAttributes(ParserCache.getParser(AttributesParser.class).parser(is, objs[0]));
 
             methodList.add(methods);
         }

@@ -18,16 +18,18 @@ import java.nio.file.Files;
 public class ParseTheClassByteCode {
     public static void main(String[] args) throws URISyntaxException, IOException {
         //获取class文件：为了测试使用了当前项目的class文件
-        Class<?> byteCodeParserClass = TestClass.class;
+        Class<?> byteCodeParserClass = ParseTheClassByteCode.class;
         File classFile = getByteCodeFileByClass(byteCodeParserClass);
 
         //解析class文件
-        ClassByteCode classByteCode = ParserCache.getParser(ByteCodeParser.class).parser(getByteArrayByFile(classFile), true);
-        System.out.println(classByteCode);
+        try(InputStream inputStream = getByteArrayByFile(classFile)){
+            ClassByteCode classByteCode = ParserCache.getParser(ByteCodeParser.class).parser(inputStream, true);
+            System.out.println(classByteCode);
 
-        //todo 反编译还原代码
-        //String decompile = DecompileUtil.decompile(classByteCode);
-        //System.out.println(decompile);
+            //todo 反编译还原代码
+            //String decompile = DecompileUtil.decompile(classByteCode);
+            //System.out.println(decompile);
+        }
     }
 
     /**
