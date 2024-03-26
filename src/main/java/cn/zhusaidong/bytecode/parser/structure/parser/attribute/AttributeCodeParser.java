@@ -1,12 +1,12 @@
 package cn.zhusaidong.bytecode.parser.structure.parser.attribute;
 
-import cn.zhusaidong.bytecode.parser.domain.ParserCache;
 import cn.zhusaidong.bytecode.parser.enums.OpcodeEnum;
 import cn.zhusaidong.bytecode.parser.interfaces.AttributeParser;
 import cn.zhusaidong.bytecode.parser.structure.data.AttributeInfo;
 import cn.zhusaidong.bytecode.parser.structure.data.attribute.AttributeCode;
 import cn.zhusaidong.bytecode.parser.structure.parser.AttributesParser;
 import cn.zhusaidong.bytecode.parser.util.ByteUtil;
+import cn.zhusaidong.bytecode.parser.util.ParserCacheUtil;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class AttributeCodeParser implements AttributeParser<AttributeInfo> {
         }
         attributeCode.setExceptionTable(exceptionTableList);
 
-        attributeCode.setAttributes(ParserCache.getParser(AttributesParser.class).parser(is, objs[0]));
+        attributeCode.setAttributes(ParserCacheUtil.getParser(AttributesParser.class).parser(is, objs[0]));
 
         return attributeCode;
     }

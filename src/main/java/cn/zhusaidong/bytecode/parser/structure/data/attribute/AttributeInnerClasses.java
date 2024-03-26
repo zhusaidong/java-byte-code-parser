@@ -2,10 +2,14 @@ package cn.zhusaidong.bytecode.parser.structure.data.attribute;
 
 import cn.zhusaidong.bytecode.parser.interfaces.AccessFlag;
 import cn.zhusaidong.bytecode.parser.structure.data.AttributeInfo;
+import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
+import cn.zhusaidong.bytecode.parser.structure.data.constant.ConstantPoolClassInfo;
+import cn.zhusaidong.bytecode.parser.structure.data.constant.ConstantPoolUtf8Info;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author zhusaidong
@@ -22,6 +26,20 @@ public class AttributeInnerClasses extends AttributeInfo {
 
     public AttributeInnerClasses() {
         setAttributeType("InnerClasses");
+    }
+
+    @Override
+    public void fill(Function<Integer, ConstantPool> fun) {
+        getInnerClassesInfos().forEach(innerClassesInfo -> {
+            ConstantPoolClassInfo classInfo = (ConstantPoolClassInfo) fun.apply(getConstantIndex(innerClassesInfo.getInnerClassInfo()));
+            innerClassesInfo.setInnerClassInfo(classInfo.getClassInfo());
+
+            classInfo = (ConstantPoolClassInfo) fun.apply(getConstantIndex(innerClassesInfo.getOuterClassInfo()));
+            innerClassesInfo.setOuterClassInfo(classInfo.getClassInfo());
+
+            ConstantPoolUtf8Info utf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(innerClassesInfo.getInnerName()));
+            innerClassesInfo.setInnerName(utf8Info.getUtf8Info());
+        });
     }
 
     @Data

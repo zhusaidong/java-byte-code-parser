@@ -1,10 +1,13 @@
 package cn.zhusaidong.bytecode.parser.structure.data.attribute;
 
 import cn.zhusaidong.bytecode.parser.structure.data.AttributeInfo;
+import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
+import cn.zhusaidong.bytecode.parser.structure.data.constant.ConstantPoolUtf8Info;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author zhusaidong
@@ -18,6 +21,17 @@ public class AttributeLocalVariableTable extends AttributeInfo {
 
     public AttributeLocalVariableTable() {
         setAttributeType("LocalVariableTable");
+    }
+
+    @Override
+    public void fill(Function<Integer, ConstantPool> fun) {
+        getLocalVariableTables().forEach(localVariableInfo -> {
+            ConstantPoolUtf8Info utf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(localVariableInfo.getName()));
+            localVariableInfo.setName(utf8Info.getUtf8Info());
+
+            utf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(localVariableInfo.getDescriptor()));
+            localVariableInfo.setDescriptor(utf8Info.getUtf8Info());
+        });
     }
 
     @Data

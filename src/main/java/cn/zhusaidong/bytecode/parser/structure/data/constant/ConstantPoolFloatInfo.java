@@ -4,6 +4,9 @@ import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @author zhusaidong
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ConstantPoolFloatInfo extends ConstantPool {

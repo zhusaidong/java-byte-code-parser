@@ -5,6 +5,8 @@ import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.function.Function;
+
 /**
  * @author zhusaidong
  */
@@ -19,5 +21,10 @@ public class AttributeConstantValue extends AttributeInfo {
 
     public AttributeConstantValue() {
         setAttributeType("ConstantValue");
+    }
+
+    @Override
+    public void fill(Function<Integer, ConstantPool> fun) {
+        setConstantValue(fun.apply(getConstantValueIndex()));
     }
 }

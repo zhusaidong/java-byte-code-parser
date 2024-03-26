@@ -1,12 +1,13 @@
 package cn.zhusaidong.bytecode.parser;
 
-import cn.zhusaidong.bytecode.parser.domain.ParserCache;
 import cn.zhusaidong.bytecode.parser.structure.data.ClassByteCode;
+import cn.zhusaidong.bytecode.parser.util.ParserCacheUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 
 /**
@@ -34,15 +35,22 @@ public class ParseTheClassByteCode {
      * 获取class文件对象
      */
     private static File getByteCodeFileByClass(Class<?> tClass) throws URISyntaxException {
-        return new File(tClass.getClassLoader().getResource(tClass.getName().replace(".", "/") + ".class").toURI());
+        URL resource = tClass.getClassLoader().getResource(tClass.getName().replace(".", "/") + ".class");
+        if (resource != null) {
+            return new File(resource.toURI());
+        }
+        return null;
     }
 
     /**
      * 解析class文件
      */
     private static ClassByteCode getClassByteCodeByClassFile(File classFile) throws IOException {
-        try(InputStream inputStream = Files.newInputStream(classFile.toPath())){
-            return ParserCache.getParser(ByteCodeParser.class).parser(inputStream, true);
+        if (classFile == null) {
+            return null;
+        }
+        try (InputStream inputStream = Files.newInputStream(classFile.toPath())) {
+            return ParserCacheUtil.getParser(ByteCodeParser.class).parser(inputStream, true);
         }
     }
 }

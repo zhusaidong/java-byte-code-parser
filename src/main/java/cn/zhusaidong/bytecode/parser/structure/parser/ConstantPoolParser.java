@@ -1,15 +1,15 @@
 package cn.zhusaidong.bytecode.parser.structure.parser;
 
-import cn.zhusaidong.bytecode.parser.domain.ParserCache;
 import cn.zhusaidong.bytecode.parser.interfaces.Parser;
 import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import cn.zhusaidong.bytecode.parser.util.ByteUtil;
+import cn.zhusaidong.bytecode.parser.util.ParserCacheUtil;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.zhusaidong.bytecode.parser.domain.ParserConstants.CONSTANT_POOL_PARSER_MAP;
+import static cn.zhusaidong.bytecode.parser.structure.data.ParserConstants.CONSTANT_POOL_PARSER_MAP;
 
 /**
  * 常量池解析器
@@ -31,7 +31,7 @@ public class ConstantPoolParser implements Parser<List<ConstantPool>> {
             //常量池类型：1个字节
             //具体类型见`CONSTANT_POOL_PARSER_MAP`的定义或者见文档：https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4
             Integer tag = ByteUtil.toDigits(ByteUtil.getBytes(is, 1));
-            constantPools.add(ParserCache.getParser(CONSTANT_POOL_PARSER_MAP.get(tag)).parser(is));
+            constantPools.add(ParserCacheUtil.getParser(CONSTANT_POOL_PARSER_MAP.get(tag)).parser(is));
         }
         return constantPools;
     }

@@ -2,10 +2,13 @@ package cn.zhusaidong.bytecode.parser.structure.data.attribute;
 
 import cn.zhusaidong.bytecode.parser.interfaces.AccessFlag;
 import cn.zhusaidong.bytecode.parser.structure.data.AttributeInfo;
+import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
+import cn.zhusaidong.bytecode.parser.structure.data.constant.ConstantPoolUtf8Info;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author zhusaidong
@@ -19,6 +22,14 @@ public class AttributeMethodParameters extends AttributeInfo {
 
     public AttributeMethodParameters() {
         setAttributeType("MethodParameters");
+    }
+
+    @Override
+    public void fill(Function<Integer, ConstantPool> fun) {
+        getParameters().forEach(parameter -> {
+            ConstantPoolUtf8Info utf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(parameter.getName()));
+            parameter.setName(utf8Info.getUtf8Info());
+        });
     }
 
     @Data

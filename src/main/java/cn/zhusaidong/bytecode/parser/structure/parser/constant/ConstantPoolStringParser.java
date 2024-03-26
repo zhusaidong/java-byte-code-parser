@@ -7,6 +7,9 @@ import cn.zhusaidong.bytecode.parser.util.ByteUtil;
 
 import java.io.InputStream;
 
+/**
+ * @author zhusaidong
+ */
 public class ConstantPoolStringParser implements ConstantParser<ConstantPool> {
     @Override
     public ConstantPool parser(InputStream is, Object... objs) {

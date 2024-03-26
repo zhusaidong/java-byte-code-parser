@@ -4,6 +4,8 @@ import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.function.Function;
+
 /**
  * @author zhusaidong
  */
@@ -24,5 +26,11 @@ public class ConstantPoolInvokeDynamicInfo extends ConstantPool {
         setType("invoke_dynamic_info");
         this.methodAttrIndex = methodAttrIndex;
         this.nameAndTypeInfoIndex = nameAndTypeInfoIndex;
+    }
+
+    @Override
+    public void fill(Function<Integer, ConstantPool> fun) {
+        setNameAndTypeInfo((ConstantPoolNameAndTypeInfo) fun.apply(getNameAndTypeInfoIndex()));
+        setNameAndTypeInfoIndex(null);
     }
 }

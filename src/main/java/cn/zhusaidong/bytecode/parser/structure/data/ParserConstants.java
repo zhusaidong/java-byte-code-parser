@@ -1,9 +1,7 @@
-package cn.zhusaidong.bytecode.parser.domain;
+package cn.zhusaidong.bytecode.parser.structure.data;
 
 import cn.zhusaidong.bytecode.parser.interfaces.AttributeParser;
 import cn.zhusaidong.bytecode.parser.interfaces.ConstantParser;
-import cn.zhusaidong.bytecode.parser.structure.data.AttributeInfo;
-import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import cn.zhusaidong.bytecode.parser.structure.parser.attribute.*;
 import cn.zhusaidong.bytecode.parser.structure.parser.constant.*;
 

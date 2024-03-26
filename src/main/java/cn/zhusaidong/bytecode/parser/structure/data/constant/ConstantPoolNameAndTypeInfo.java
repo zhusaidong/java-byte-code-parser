@@ -4,6 +4,8 @@ import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.function.Function;
+
 /**
  * @author zhusaidong
  */
@@ -23,5 +25,13 @@ public class ConstantPoolNameAndTypeInfo extends ConstantPool {
         setType("nameAndType_info");
         this.nameInfoIndex = "#" + nameInfoIndex;
         this.typeInfoIndex = "#" + typeInfoIndex;
+    }
+
+    @Override
+    public void fill(Function<Integer, ConstantPool> fun) {
+        ConstantPoolUtf8Info constantUtf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(getNameInfoIndex()));
+        setNameInfoIndex(constantUtf8Info.getUtf8Info());
+        constantUtf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(getTypeInfoIndex()));
+        setTypeInfoIndex(constantUtf8Info.getUtf8Info());
     }
 }

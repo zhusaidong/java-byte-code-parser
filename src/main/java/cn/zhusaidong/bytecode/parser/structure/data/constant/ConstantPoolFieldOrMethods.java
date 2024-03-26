@@ -2,9 +2,11 @@ package cn.zhusaidong.bytecode.parser.structure.data.constant;
 
 import cn.zhusaidong.bytecode.parser.interfaces.AccessFlag;
 import cn.zhusaidong.bytecode.parser.structure.data.AttributeInfo;
+import cn.zhusaidong.bytecode.parser.structure.data.ConstantPool;
 import lombok.Data;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 常量池字段/方法
@@ -29,4 +31,16 @@ public class ConstantPoolFieldOrMethods {
      * 额外属性
      */
     private List<AttributeInfo> attributes;
+
+    public int getConstantIndex(String index){
+        return Integer.parseInt(index.substring(1));
+    }
+
+    public void fill(Function<Integer, ConstantPool> fun) {
+        ConstantPoolUtf8Info utf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(getName()));
+        setName(utf8Info.getUtf8Info());
+
+        utf8Info = (ConstantPoolUtf8Info) fun.apply(getConstantIndex(getDescriptor()));
+        setDescriptor(utf8Info.getUtf8Info());
+    }
 }
